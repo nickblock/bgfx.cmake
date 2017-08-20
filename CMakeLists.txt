@@ -11,6 +11,8 @@
 cmake_minimum_required( VERSION 3.0 )
 project( bgfx )
 
+cmake_policy(SET CMP0054 NEW)
+
 set_property( GLOBAL PROPERTY USE_FOLDERS ON )
 if( APPLE )
 	set( CMAKE_CXX_FLAGS "-ObjC++ --std=c++11" )
@@ -20,6 +22,7 @@ elseif(UNIX)
 endif()
 
 option( BGFX_BUILD_TOOLS      "Build bgfx tools."                             ON  )
+option( BGFX_BUILD_GEOMC      "Build geometry compiler."                      ON  )
 option( BGFX_BUILD_EXAMPLES   "Build bgfx examples."                          ON  )
 option( BGFX_INSTALL          "Create installation target."                   ON  )
 option( BGFX_INSTALL_EXAMPLES "Install examples and their runtimes."          OFF  )
@@ -47,6 +50,11 @@ include( cmake/bx.cmake )
 include( cmake/bimg.cmake )
 include( cmake/bgfx.cmake )
 
+if(ANDROID)
+	include( cmake/AndroidNdkModules.cmake )
+	android_ndk_import_module_native_app_glue()
+endif()
+
 if( BGFX_BUILD_TOOLS )
 	include( cmake/tools.cmake )
 endif()
@@ -70,8 +78,10 @@ if( BGFX_INSTALL )
 
 	# install tools
 	if( BGFX_BUILD_TOOLS )
-        install( TARGETS shaderc DESTINATION bin )
-		install( TARGETS geometryc DESTINATION bin )
+    install( TARGETS shaderc DESTINATION bin )
+    if( BGFX_BUILD_GEOMC )
+			install( TARGETS geometryc DESTINATION bin )
+		endif()
 	endif()
 
 	# install examples

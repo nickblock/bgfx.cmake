@@ -58,7 +58,11 @@ if( UNIX AND NOT APPLE )
 	target_link_libraries( bx ${CMAKE_THREAD_LIBS_INIT} dl )
 
 	# Real time (for clock_gettime)
-	target_link_libraries( bx rt )
+	target_link_libraries( bx )
+
+	if(NOT ANDROID)
+		target_link_libraries( rt )
+	endif()
 endif()
 
 # Put in a "bgfx" folder in Visual Studio

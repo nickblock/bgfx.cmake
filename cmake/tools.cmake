@@ -13,7 +13,12 @@ if( BGFX_CUSTOM_TARGETS )
 	set_target_properties( tools PROPERTIES FOLDER "bgfx/tools" )
 endif()
 
+if (BGFX_BUILD_GEOMC)
 include( cmake/tools/geometryc.cmake )
+endif()
+
 include( cmake/tools/shaderc.cmake )
 include( cmake/tools/texturec.cmake )
+if(NOT ANDROID )
 include( cmake/tools/texturev.cmake )
+endif()
