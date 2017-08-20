@@ -64,7 +64,7 @@ if( APPLE )
 	target_link_libraries( bgfx PUBLIC ${COCOA_LIBRARY} ${METAL_LIBRARY} ${QUARTZCORE_LIBRARY} )
 endif()
 
-if( UNIX AND NOT APPLE )
+if( UNIX AND NOT APPLE AND NOT ANDROID )
 	target_link_libraries( bgfx PUBLIC GL )
 endif()
 
